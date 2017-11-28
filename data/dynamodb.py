@@ -1,6 +1,9 @@
 import json
-import os
+import os, sys
 import pymysql
+current_path = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, current_path + '/../')
+from data.basedb import BaseDB
 from boto3 import resource
 from boto3.dynamodb.conditions import Key
 
@@ -14,7 +17,7 @@ class DynamoDBModelMixin(object):
     def to_dict(self):
         return self.__dict__
 
-class DynamoDB(object):
+class DynamoDB(BaseDB):
     def __init__(self, table_name, allowed_type=None):
         self._dynamodb_resource = resource('dynamodb')
         self._table = self._dynamodb_resource.Table(table_name)
@@ -86,3 +89,7 @@ class DynamoDB(object):
                 self._table.delete_item(Key={list(item.keys())[0]: list(item.values())[0]})
         except Exception as e:
             raise e
+
+x = DynamoDB('aldryn-test')
+print(x.get_all())
+

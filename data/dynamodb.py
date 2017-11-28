@@ -89,7 +89,3 @@ class DynamoDB(BaseDB):
                 self._table.delete_item(Key={list(item.keys())[0]: list(item.values())[0]})
         except Exception as e:
             raise e
-
-x = DynamoDB('aldryn-test')
-print(x.get_all())
-

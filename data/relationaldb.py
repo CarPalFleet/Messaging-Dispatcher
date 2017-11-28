@@ -43,16 +43,3 @@ class RelationalDB(BaseDB):
 
     def purge(self):
         pass
-
-
-x = RelationalDB(host_name='aldryndbinstance.cluwsec6wqyi.ap-southeast-1.rds.amazonaws.com',
-                 database_name='aldryndbname',
-                 username='aldryn',
-                 password='mypassword',
-                 table_name='users')
-
-
-
-print( x.to_dict() )
-
-# print("Hi")

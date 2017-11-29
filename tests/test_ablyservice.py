@@ -1,10 +1,10 @@
 import logging, mock, os, sys, unittest
+from ably import AblyRest
+from ably.util.exceptions import AblyAuthException, AblyException
+from ably.rest.channel import Channel
 current_path = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, current_path + '/../') 
 from data.ablyservice import AblyService
-import ably
-from ably.util.exceptions import AblyAuthException, AblyException
-from ably.rest.channel import Channel
 
 class TestAblyService(unittest.TestCase):
     """ Test Class for AblyService """
@@ -18,7 +18,7 @@ class TestAblyService(unittest.TestCase):
     def test_init_success(self):
         """ Test ensures proper api key format will instantiate an AblyRest Object """
         ablyservice = AblyService('zEkI4A.ndGQtw:kDKYDEpWrryXn67W')
-        self.assertIsInstance(ablyservice._client, ably.rest.rest.AblyRest)
+        self.assertIsInstance(ablyservice._client, AblyRest)
 
     def test_publish_throw_exception(self):
         """ Test ensures publish throws an Ably Exception on invalid input """

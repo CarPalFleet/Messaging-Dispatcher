@@ -28,7 +28,3 @@ class AblyService(PubSubService):
                                                                   event,
                                                                   payload))
             raise exception
-
-x = AblyService('zEkI4A.ndGQtw:kDKYDEpWrryXn67W')
-print(x._client)
-# x.publish('mycheese', 'cheese.added', '{1,2,3}')

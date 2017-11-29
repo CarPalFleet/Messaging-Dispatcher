@@ -39,4 +39,3 @@ class BaseDB(ABC, DBModelMixin):
     @abstractmethod
     def purge(self):
         pass
-        

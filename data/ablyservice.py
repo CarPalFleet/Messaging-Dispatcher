@@ -12,8 +12,6 @@ class AblyService(PubSubService):
     def __init__(self, api_key):
         try:
             self._client = AblyRest(api_key)
-
-            # print(self._client.__class__)
         except AblyAuthException as exception:
             logging.error("Ably Authentication Exception: %s", str(exception))
             raise exception

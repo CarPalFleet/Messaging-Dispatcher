@@ -7,6 +7,10 @@ MessagingDispacher.egg-info/dependency_links.txt
 MessagingDispacher.egg-info/requires.txt
 MessagingDispacher.egg-info/top_level.txt
 data/__init__.py
+data/ablyservice.py
+data/basedb.py
 data/dynamodb.py
+data/pubsubservice.py
+data/relationaldb.py
 messaging/__init__.py
 messaging/pubsub.py

@@ -1,23 +1,12 @@
-import json
-import os, sys
-import pymysql
-current_path = os.path.dirname(os.path.abspath(__file__))
-sys.path.insert(0, current_path + '/../')
-from data.basedb import BaseDB
+import json, os, sys
 from boto3 import resource
 from boto3.dynamodb.conditions import Key
+from botocore.exceptions import ClientError
+current_path = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, current_path + '/../')
+from data.basedb import BaseDB, DBModelMixin
 
-class DynamoDBModelMixin(object):  
-    def __str__(self):
-        return json.dumps(self.__dict__)
-
-    def to_json(self):
-        return json.dumps(self.__dict__)
-
-    def to_dict(self):
-        return self.__dict__
-
-class DynamoDB(BaseDB):
+class DynamoDB(BaseDB, DBModelMixin):
     def __init__(self, table_name, allowed_type=None):
         self._dynamodb_resource = resource('dynamodb')
         self._table = self._dynamodb_resource.Table(table_name)
@@ -39,15 +28,21 @@ class DynamoDB(BaseDB):
                 for item in items:
                     new_list.append({'PutRequest': {'Item':item.to_dict()}})
 
-                if self._dynamodb_resource.batch_write_item(RequestItems={self._table.name: new_list}).get('UnprocessedItems'):
-                    raise RuntimeError('Unable to process the batch insertion process.')
-                else:
-                    return True
+                try:
+                    if self._dynamodb_resource.batch_write_item(RequestItems={self._table.name: new_list}).get('UnprocessedItems'):
+                        raise RuntimeError('Unable to process the batch insertion process.')
+                    else:
+                        return True
+                except ClientError as error:
+                    raise error
         else:
             raise TypeError('Invalid argument. List object is expected')
 
     def get(self, key, value):
-        return self._table.get_item(Key={key: value}).get('Item', None)
+        try:
+            return self._table.get_item(Key={key: value}).get('Item', None)
+        except ClientError as error:
+            raise error
 
     def get_all(self, filter_key=None, filter_value=None, partial_match=False):
         """
@@ -66,20 +61,26 @@ class DynamoDB(BaseDB):
     def update(self, key, value, update_key, update_value):
         # to prevent it from creating new item if key-value pair not found.
         # it should be handled by add function
-        if self.get(key, value):
-            return self._table.update_item(Key={key: value},
-                                           UpdateExpression="SET {} = :updated".format(update_key),                   
-                                           ExpressionAttributeValues={':updated': update_value},
-                                           ReturnValues='UPDATED_NEW').get('Attributes', None)
-        else:
-            raise KeyError('No key-value pair found.')
+        try:
+            if self.get(key, value):
+                return self._table.update_item(Key={key: value},
+                                               UpdateExpression="SET {} = :updated".format(update_key),
+                                               ExpressionAttributeValues={':updated': update_value},
+                                               ReturnValues='UPDATED_NEW').get('Attributes', None)
+            else:
+                raise KeyError('No key-value pair found.')
+        except ClientError as error:
+            raise error
 
     def delete(self, key, value):
-        self._table.delete_item(Key={key: value})
-        if self.get(key, value):
-            raise KeyError('No key-value pair found and deleted')
-        else:
-            return True
+        try:
+            if self.get(key, value):
+                self._table.delete_item(Key={key: value})
+                return True
+            else:
+                raise KeyError('No key-value pair found and deleted')
+        except ClientError as error:
+            raise error
 
     def purge(self):
         try:

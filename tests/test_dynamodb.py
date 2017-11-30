@@ -2,7 +2,8 @@ import os, sys, unittest
 from boto3 import resource
 from botocore.exceptions import ClientError
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)) + '/../')
-from data.dynamodb import DynamoDB, DBModelMixin
+from data.basedb import DBModelMixin
+from data.dynamodb import DynamoDB
 
 class TestDynamoDB(unittest.TestCase):
     """ Test Class for DynamoDB """

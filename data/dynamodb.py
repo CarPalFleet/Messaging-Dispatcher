@@ -4,10 +4,10 @@ from boto3.dynamodb.conditions import Key
 from botocore.exceptions import ClientError
 current_path = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, current_path + '/../')
-from data.basedb import BaseDB, DBModelMixin
+from data.basedb import BaseDB
 
-class DynamoDB(BaseDB, DBModelMixin):
-    def __init__(self, table_name, allowed_type=None):
+class DynamoDB(BaseDB):
+    def __init__(self, table_name, allowed_type):
         self._dynamodb_resource = resource('dynamodb')
         self._table = self._dynamodb_resource.Table(table_name)
         self._allowed_type = allowed_type

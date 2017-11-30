@@ -4,14 +4,15 @@ from botocore.exceptions import ClientError
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)) + '/../')
 from data.basedb import DBModelMixin
 from data.dynamodb import DynamoDB
+import unittest
 
 class TestDynamoDB(unittest.TestCase):
     """ Test Class for DynamoDB """
+    def setUp(self):
+        self.table_name = 'message-dispatcher-test'
+        self.table = resource('dynamodb').Table(self.table_name)
 
-    table_name = 'message-dispatcher-test'
-    table = resource('dynamodb').Table(table_name)
-
-    def create_db_model_mixin(self, primary_id, name):
+    def create_db_model_mixin(self, primary_id, name):        
         db_model = DBModelMixin()
         db_model.id = primary_id
         db_model.display_name = name
@@ -26,6 +27,7 @@ class TestDynamoDB(unittest.TestCase):
             self.assertEqual(getattr(model, key), database_record.get(key))
 
     def test_add_success(self):
+        self.assertTrue(False)
         # Create item to persist
         db_model = self.create_db_model_mixin(1, "Dark Mocha")
 

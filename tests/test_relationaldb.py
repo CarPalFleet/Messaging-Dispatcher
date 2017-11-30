@@ -4,6 +4,7 @@ from botocore.exceptions import ClientError
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)) + '/../')
 from data.basedb import DBModelMixin
 from data.relationaldb import RelationalDB
+import unittest
 
 class TestDynamoDB(unittest.TestCase):
     """ Test Class for RelationalDB """

@@ -5,6 +5,7 @@ from ably.rest.channel import Channel
 current_path = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, current_path + '/../') 
 from data.ablyservice import AblyService
+import unittest
 
 class TestAblyService(unittest.TestCase):
     """ Test Class for AblyService """

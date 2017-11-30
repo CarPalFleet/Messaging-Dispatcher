@@ -1,0 +1,9 @@
+actionid: py36
+msg: getenv
+cmdargs: ['/Users/chencheng/.virtualenv/venv36/bin/python3.6', '-m', 'virtualenv', '--python', '/Users/chencheng/.virtualenv/venv36/bin/python3.6', 'py36']
+
+Already using interpreter /Users/chencheng/.virtualenv/venv36/bin/python3.6
+Using real prefix '/usr/local/Cellar/python3/3.6.2/Frameworks/Python.framework/Versions/3.6'
+New python executable in /Users/chencheng/Documents/Projects/CarPal/Messaging-Dispatcher/.tox/py36/bin/python3.6
+Also creating executable in /Users/chencheng/Documents/Projects/CarPal/Messaging-Dispatcher/.tox/py36/bin/python
+Installing setuptools, pip, wheel...done.

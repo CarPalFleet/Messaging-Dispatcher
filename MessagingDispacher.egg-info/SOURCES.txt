@@ -12,5 +12,3 @@ data/basedb.py
 data/dynamodb.py
 data/pubsubservice.py
 data/relationaldb.py
-messaging/__init__.py
-messaging/pubsub.py

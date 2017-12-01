@@ -34,5 +34,9 @@ class TestAblyService(unittest.TestCase):
         ablyservice.publish('a', 'b', 'c')
         channels_method.assert_called_with('a')
 
+    def test_publish_success2(self):
+        ablyservice = AblyService('zEkI4A.ndGQtw:kDKYDEpWrryXn67W')
+        ablyservice.publish('a', 'b', 'c')
+
 if __name__ == '__main__':
     unittest.main()

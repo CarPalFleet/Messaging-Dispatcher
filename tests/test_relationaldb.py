@@ -1,18 +1,19 @@
 import os, pymysql, sys, unittest
 from boto3 import resource
 from botocore.exceptions import ClientError
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)) + '/../')
+current_path = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, current_path + '/../')
 from messagingdispatcher.db.basedb import DBModelMixin
 from messagingdispatcher.db.relationaldb import RelationalDB
-import config
+from messagingdispatcher.config import CONFIG
 
 class TestDynamoDB(unittest.TestCase):
     """ Test Class for RelationalDB """
 
-    relationaldb_host = config.relationaldb_host
-    relationaldb_user = config.relationaldb_username
-    relationaldb_password = config.relationaldb_password
-    relationaldb_dbname = config.relationaldb_dbname
+    relationaldb_host = CONFIG.get('relationaldb_host')
+    relationaldb_user = CONFIG.get('relationaldb_username')
+    relationaldb_password = CONFIG.get('relationaldb_password')
+    relationaldb_dbname = CONFIG.get('relationaldb_dbname')
 
     def setUp(self):
         self._relational_db = RelationalDB("users",

@@ -7,6 +7,7 @@ MessagingDispatcher.egg-info/dependency_links.txt
 MessagingDispatcher.egg-info/requires.txt
 MessagingDispatcher.egg-info/top_level.txt
 messagingdispatcher/__init__.py
+messagingdispatcher/config.py
 messagingdispatcher/db/__init__.py
 messagingdispatcher/db/basedb.py
 messagingdispatcher/db/dynamodb.py

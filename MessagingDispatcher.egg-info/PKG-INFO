@@ -1,6 +1,6 @@
 Metadata-Version: 1.0
 Name: MessagingDispatcher
-Version: 0.0.0.2
+Version: 0.0.0.3
 Summary: A process engine to dispatch messages to various AWS services.
 Home-page: UNKNOWN
 Author: CarPal Fleet

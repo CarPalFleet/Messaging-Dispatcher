@@ -3,10 +3,17 @@ import os, sys
 import pymysql
 current_path = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, current_path + '/../')
-from data.basedb import BaseDB
+from messagingdispatcher.db.basedb import BaseDB
+import config
 
 class RelationalDB(BaseDB):
-    def __init__(self, table_name, allowed_type, host_name, database_name, username, password):
+    def __init__(self,
+                 table_name,
+                 allowed_type,
+                 host_name=config.relationaldb_host,
+                 database_name=config.relationaldb_dbname,
+                 username=config.relationaldb_username,
+                 password=config.relationaldb_password):
         self._connection = pymysql.connect(host=host_name,
                                            user=username,
                                            password=password,

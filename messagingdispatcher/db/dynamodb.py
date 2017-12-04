@@ -4,7 +4,8 @@ from boto3.dynamodb.conditions import Key
 from botocore.exceptions import ClientError
 current_path = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, current_path + '/../')
-from data.basedb import BaseDB
+from messagingdispatcher.db.basedb import BaseDB
+import config
 
 class DynamoDB(BaseDB):
     def __init__(self, table_name, allowed_type):

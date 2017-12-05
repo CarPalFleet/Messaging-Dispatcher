@@ -2,11 +2,18 @@ import json
 import os, sys
 import pymysql
 current_path = os.path.dirname(os.path.abspath(__file__))
-sys.path.insert(0, current_path + '/../')
-from data.basedb import BaseDB
+sys.path.insert(0, current_path + '/../../')
+from messagingdispatcher.db.basedb import BaseDB
+from messagingdispatcher.config import CONFIG
 
 class RelationalDB(BaseDB):
-    def __init__(self, table_name, allowed_type, host_name, database_name, username, password):
+    def __init__(self,
+                 table_name,
+                 allowed_type,
+                 host_name=CONFIG.get('relationaldb_host'),
+                 database_name=CONFIG.get('relationaldb_dbname'),
+                 username=CONFIG.get('relationaldb_username'),
+                 password=CONFIG.get('relationaldb_password')):
         self._connection = pymysql.connect(host=host_name,
                                            user=username,
                                            password=password,

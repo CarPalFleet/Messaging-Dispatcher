@@ -1,6 +1,7 @@
-ably
 boto3
 botocore
+pymysql
 coverage
 tox
-pymysql
+mock
+

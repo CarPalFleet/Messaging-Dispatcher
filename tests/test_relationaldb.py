@@ -2,25 +2,34 @@ import os, pymysql, sys, unittest
 from boto3 import resource
 from botocore.exceptions import ClientError
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)) + '/../')
-from data.basedb import DBModelMixin
-from data.relationaldb import RelationalDB
 import unittest
+current_path = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, current_path + '/../')
+from messagingdispatcher.db.basedb import DBModelMixin
+from messagingdispatcher.db.relationaldb import RelationalDB
+from messagingdispatcher.config import CONFIG
+
 
 class TestDynamoDB(unittest.TestCase):
     """ Test Class for RelationalDB """
 
+    relationaldb_host = CONFIG.get('relationaldb_host')
+    relationaldb_user = CONFIG.get('relationaldb_username')
+    relationaldb_password = CONFIG.get('relationaldb_password')
+    relationaldb_dbname = CONFIG.get('relationaldb_dbname')
+
     def setUp(self):
         self._relational_db = RelationalDB("users",
                                            DBModelMixin,
-                                           "aldryndbinstance.cluwsec6wqyi.ap-southeast-1.rds.amazonaws.com",
-                                           "testingdb",
-                                           "aldryn",
-                                           "mypassword")
+                                           self.relationaldb_host,
+                                           self.relationaldb_dbname,
+                                           self.relationaldb_user,
+                                           self.relationaldb_password)
 
-        self._connection = pymysql.connect(host="aldryndbinstance.cluwsec6wqyi.ap-southeast-1.rds.amazonaws.com",
-                                           user="aldryn",
-                                           password="mypassword",
-                                           db="testingdb",
+        self._connection = pymysql.connect(host=self.relationaldb_host,
+                                           user=self.relationaldb_user,
+                                           password=self.relationaldb_password,
+                                           db=self.relationaldb_dbname,
                                            cursorclass=pymysql.cursors.DictCursor)
 
     def tearDown(self):

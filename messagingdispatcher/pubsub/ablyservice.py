@@ -1,25 +1,21 @@
-from ably import AblyRest
-from ably.rest.channel import Channels
-from ably.util.exceptions import AblyAuthException, AblyException
-import logging, os, sys
+import base64, json, logging, os, requests, sys
 current_path = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, current_path + '/../')
-from data.pubsubservice import PubSubService
+from messagingdispatcher.pubsub.pubsubservice import PubSubService
 
 class AblyService(PubSubService):
     """ Ably Implementation of Publish Subscriber Service Class """
 
     def __init__(self, api_key):
-        try:
-            self._client = AblyRest(api_key)
-        except AblyAuthException as exception:
-            logging.error("Ably Authentication Exception: %s", str(exception))
-            raise exception
+        self._api_key = api_key
 
     def publish(self, channel_name, event, payload):
         try:
-            self._client.channels.get(channel_name).publish(event, payload)
-        except AblyException as exception:
+            authorization_value = base64.b64encode(self._api_key.encode()).decode("utf-8")
+            requests.post('https://rest.ably.io/channels/{}/messages'.format(channel_name), 
+                          data=json.dumps({'name': event, 'data': payload}),
+                          headers={"content-type":"application/json", "Authorization":"Basic {}".format(authorization_value) })
+        except Exception as exception:
             logging.error("""Publish encountered Ably Exception {} with Channel Name:
                              {}, Event: {}, Payload: {}""".format(str(exception),
                                                                   channel_name,

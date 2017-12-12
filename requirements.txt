@@ -1,6 +1,7 @@
 boto3
 botocore
 pymysql
+elasticsearch
 coverage
 tox
 mock

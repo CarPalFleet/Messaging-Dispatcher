@@ -2,7 +2,6 @@ import os, sys, unittest
 from boto3 import resource
 from botocore.exceptions import ClientError
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)) + '/../')
-import unittest
 from messagingdispatcher.db.basedb import DBModelMixin
 from messagingdispatcher.db.dynamodb import DynamoDB
 

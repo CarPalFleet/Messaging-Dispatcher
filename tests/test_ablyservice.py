@@ -1,7 +1,6 @@
 import base64, json, logging, mock, os, sys, unittest
 current_path = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, current_path + '/../') 
-import unittest
 from messagingdispatcher.pubsub.ablyservice import AblyService
 
 

@@ -25,7 +25,6 @@ class TestElasticSearch(unittest.TestCase):
         self.assertEqual(self._new_doc.doc_id, '1')
 
     def test_upsert_document(self):
-        print(CONFIG.get('elasticsearch_endpoint'))
         es = ElasticSearch(host=CONFIG.get('elasticsearch_endpoint'))
         result = es.upsert_document(self._new_doc)
         self.assertEqual(result.get('_shards').get('successful'), 1)

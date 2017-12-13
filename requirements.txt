@@ -5,4 +5,4 @@ elasticsearch
 coverage
 tox
 mock
-
+requests

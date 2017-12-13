@@ -28,7 +28,6 @@ class TestDynamoDB(unittest.TestCase):
             self.assertEqual(getattr(model, key), database_record.get(key))
 
     def test_add_success(self):
-        self.assertTrue(False)
         # Create item to persist
         db_model = self.create_db_model_mixin(1, "Dark Mocha")
 

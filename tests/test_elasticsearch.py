@@ -17,7 +17,7 @@ class TestElasticSearch(unittest.TestCase):
                                                         "driver_name": ""
                                                     })
 
-     def test_document_model(self):
+    def test_document_model(self):
          self.assertEqual(self._new_doc.index, 'order')
          self.assertEqual(self._new_doc.doc_type, 'default')
          self.assertEqual(self._new_doc.doc_id, '1')

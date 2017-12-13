@@ -39,6 +39,9 @@ class Search(object):
     def upsert_document(self, doc):
         raise NotImplementedError
 
+    def delete_document(self, id):
+        raise NotImplementedError
+
 class ElasticSearch(Search):
     def __init__(self, host):
         self._client = ES(hosts=[host], ca_certs=certifi.where())
@@ -56,3 +59,7 @@ class ElasticSearch(Search):
                                        body={"doc":doc.body})
         except Exception:
             return False
+
+    def delete_document(self, id):
+        #TODO: add delete document function
+        return False

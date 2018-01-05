@@ -6,7 +6,7 @@ setup(
     description='A process engine to dispatch messages to various AWS services.',
     license='Apache License 2.0',
     install_requires=['boto3', 'pymysql', 'requests', 'ably'],
-    version='0.0.0.5',
+    version='0.0.0.7',
     author='CarPal Fleet',
     author_email='nick@carpal.me',
     packages=find_packages(),

@@ -1,6 +1,6 @@
 import json, os, sys
 from boto3 import resource
-from boto3.dynamodb.conditions import Key
+from boto3.dynamodb.conditions import Key, Attr
 from botocore.exceptions import ClientError
 current_path = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, current_path + '/../')
@@ -57,6 +57,45 @@ class DynamoDB(BaseDB):
             response = self._table.scan()
 
         return response.get('Items', [])
+
+    def get_by_fields(self, filters=None):
+        """
+        Perform a scan operation on table.
+        Can specify filters to be filtered
+        """
+        if filters:
+            filter_expression = None
+
+            for filterz in filters:
+                attribute = self.create_attribute_condition(filterz['key'], filterz['value'], filterz['data_type'])
+                if filter_expression:
+                    filter_expression = filter_expression.__and__(attribute)
+                else:
+                    filter_expression = attribute
+
+            response = self._table.scan(FilterExpression=filter_expression)
+        else:
+            response = self._table.scan()
+            
+        return response.get('Items', [])
+
+    def create_attribute_condition(self, key, value, data_type):
+        # Handle Attribute Condition for certain Data Type
+        if data_type in ['StringSet', 'NumberSet']:
+            attribute = None
+            for current_value in value:
+                if attribute is None:
+                    attribute = Attr(key).contains(current_value)                    
+                else:
+                    attribute = Attr(key).contains(current_value).__and__(attribute)
+
+            return attribute
+
+        # Handle Attribute Condition for certain Values
+        if isinstance(value, list):
+            return Attr(key).is_in(value)
+        else:
+            return Attr(key).eq(value)
 
     def update(self, key, value, update_key, update_value):
         # to prevent it from creating new item if key-value pair not found.

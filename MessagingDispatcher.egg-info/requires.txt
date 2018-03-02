@@ -3,4 +3,3 @@ pymysql
 requests
 ably
 elasticsearch
-requests_aws4auth

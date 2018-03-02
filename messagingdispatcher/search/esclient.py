@@ -1,7 +1,10 @@
-import json
-import certifi
-from elasticsearch import Elasticsearch as ES
+import json, os
+from elasticsearch import Elasticsearch as ES, RequestsHttpConnection
 from elasticsearch.exceptions import ConflictError
+from requests_aws4auth import AWS4Auth
+from messagingdispatcher.config import CONFIG
+
+AWS_AUTH = AWS4Auth(CONFIG.get('aws_key_id'), CONFIG.get('aws_secret_key'), 'ap-southeast-1', 'es')
 
 class ElasticSearchDocumentModel(object):
     def __init__(self, index, doc_type, doc_id, body):
@@ -44,7 +47,13 @@ class Search(object):
 
 class ElasticSearch(Search):
     def __init__(self, host):
-        self._client = ES(hosts=[host], ca_certs=certifi.where())
+        self._client = ES(
+            hosts=[host],
+            http_auth=AWS_AUTH,
+            use_ssl=True,
+            verify_certs=True,
+            connection_class=RequestsHttpConnection
+        )
 
     def upsert_document(self, doc):
         try:

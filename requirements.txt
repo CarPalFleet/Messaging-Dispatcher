@@ -7,3 +7,4 @@ coverage
 tox
 mock
 requests
+requests_aws4auth

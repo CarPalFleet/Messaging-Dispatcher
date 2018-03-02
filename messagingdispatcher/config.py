@@ -7,4 +7,4 @@ CONFIG = {
    'relationaldb_dbname':'',
    'elasticsearch_endpoint':'',
    'aws_key_id':os.getenv('AWS_KEY_ID'),
-   'aws_secret_key':os.getenv('AWS_SECRET_KEY')}
+   'aws_secret_key':os.getenv('AWS_SECRET_KEY_ID')}

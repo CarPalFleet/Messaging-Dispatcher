@@ -1,10 +1,12 @@
-import json, os
+import json, os, boto3
 from elasticsearch import Elasticsearch as ES, RequestsHttpConnection
 from elasticsearch.exceptions import ConflictError
 from requests_aws4auth import AWS4Auth
 from messagingdispatcher.config import CONFIG
 
-AWS_AUTH = AWS4Auth(CONFIG.get('aws_key_id'), CONFIG.get('aws_secret_key'), 'ap-southeast-1', 'es')
+session = boto3.session.Session()
+credentials = session.get_credentials()
+AWS_AUTH = AWS4Auth(credentials.access_key, credentials.secret_key, 'ap-southeast-1', 'es')
 
 class ElasticSearchDocumentModel(object):
     def __init__(self, index, doc_type, doc_id, body):
